@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        
+        <meta charset="utf-8">
+        <title> US QUIZ </title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>        
+        <script src = "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" ></script> 
+        <script>
+        /*global $*/
+          
+            $(document).ready(function(){
+                
+                   //globalVariable
+                     let score =0;
+                     let timesTaken =0;
+                
+                //event listener
+                $("button").on("click", gradeQuiz);
+                    //alert($("#q1").val());
+                    //console.log($("q1").val());
+                //});
+                
+                //question 5
+                $(".q5Choice").on("click", function() {
+                    $(".q5Choice").css("background","");
+                    $(this).css("background","rgb(255, 255, 0)");
+                });
+                
+                displayQ4Choices();
+                
+                function displayQ4Choices(){
+                    let q4ChoicesArray = ["Maine", "Rhode Island", "Maryland", "Delaware"];
+                    q4ChoicesArray = _.shuffle(q4ChoicesArray);
+                    for(let i =0; i < q4ChoicesArray.length; i++) {
+                        $("#q4Choices").append(`<input type="radio" name="q4" id="${q4ChoicesArray[i]}" value="${q4ChoicesArray[i]}"><label for="${q4ChoicesArray[i]}"> ${q4ChoicesArray[i]}</label>`);
+                    }
+                }
+                
+                 //check that form is valid
+                 function isFormValid(){
+                    let isValid = true;
+                    if ($("#q1").val() == "") {
+                         isValid = false;
+                         $("#validationfdbk").html("Question 1 was not answered");
+                        
+                    }
+                    timesTaken +=1;
+                    return isValid;
+                 }
+                
+                function rightAnswer(index){
+                         $(`#q${index}Feedback`).html("Correct!");
+                         $(`#q${index}Feedback`).attr("class", "bg-success text-white");
+                         $(`#markImg${index}`).html("<img src ='img/checkmark.png'>");
+                         score += 12.5;
+                }
+                
+                function wrongAnswer(index){
+                         $(`#q${index}Feedback`).html("Incorrect!");
+                         $(`#q${index}Feedback`).attr("class", "bg-warning text-white");
+                         $(`#markImg${index}`).html("<img src ='img/xmark.png' alt='xmark'>");
+               }
+                
+                 //grade the quiz
+                 function gradeQuiz(){
+                    
+                     $("#validationfdbk").html("");//reseting
+                    
+                    if (!isFormValid()) {
+                         return;
+                     }
+                     
+                     //variables
+                     let q1Response = $("#q1").val().toLowerCase();
+                     let q2Response = $("#q2").val();
+                     let q4Response = $("input[name=q4]:checked").val()
+                     let q6Response = $("#q6").val().toLowerCase();
+                     let q7Response = $("#q7").val();
+                      
+                     //question1
+                     if(q1Response == "sacramento") { //***change to sacramento
+                         rightAnswer(1);
+                     }else{
+                         wrongAnswer(1);
+                     }
+                     
+                      //question2
+                     if(q2Response == "mo") { //***change to sacramento
+                         rightAnswer(2);
+                     }else{
+                         wrongAnswer(2);
+                     }
+                     
+                       //question3
+                     if($("#jefferson").is(":checked")&& $("#roosevelt").is(":checked") && !$("#jackson").is(":checked") && !$("#franklin").is(":checked")) { //***change to sacramento
+                         rightAnswer(3);
+                     }else{
+                         wrongAnswer(3);
+                     }
+                     
+                     //question4
+                     if(q4Response == "Rhode Island") {
+                         rightAnswer(4);
+                     }else{
+                         wrongAnswer(4);
+                     }
+                     
+                     //question5
+                     if ($("#seal2").css("background-color") == "rgb(255, 255, 0)"){
+                         rightAnswer(5);
+                     }else{
+                         wrongAnswer(5);
+                     }
+                        //question6
+                     if(q6Response == "los angeles") { //
+                         rightAnswer(6);
+                     }else{
+                         wrongAnswer(6);
+                     }
+                       //question7
+                     if(q7Response == "se") { //*
+                         rightAnswer(7);
+                     }else{
+                         wrongAnswer(7);
+                     }
+                     
+                        //question8
+                     if($("#california").is(":checked")&& !$("#arizona").is(":checked") && !$("#colorado").is(":checked") && !$("#hawaii").is(":checked")) { //
+                         rightAnswer(8);
+                     }else{
+                         wrongAnswer(8);
+                     }
+                     
+                     $("#totalScore").html(`Total Score: ${score}`);
+                     $("#result").html(`Times Taken: ${timesTaken}`);
+                     
+                     if(score >= 80){
+                    $("#congrats").html(`CONGRATULATIONS!`);
+                }
+                 }
+                
+                
+                
+                
+           })//ready
+            
+            
+        </script>
+    </head>
+    
+    <body class="text-center">
+        
+        <h1 class="jumbotron"> US Geography Quiz </h1>
+        
+        <h3><span id="markImg1"></span> What is the capital of California? </h3> 
+        <input type = "text" id="q1">
+        
+            <br><br>
+        <div id="q1Feedback"></div>
+        
+        <!--question 2-->
+        <h3><span id="markImg2"></span>What is the longest river?</h3>
+        <select id="q2">
+            <option value="">Select One</option>
+            <option value="ms">Mississippi</option>
+            <option value="mo">Missouri</option>
+            <option value="co">Colorado</option>
+            <option value="de">Delaware</option>
+        </select>
+        <br><br>
+        <div id="q2Feedback"></div>
+        <br>
+        
+        <h3><span id="markImg3"></span> What presidents are carved into mount Rushmore?</h3>
+            <input type="checkbox" id="roosevelt"> <label for="roosevelt"> T. Roosevelt</label>
+            <input type="checkbox" id="jackson"> <label for="jackson">     A. Jackson</label>
+            <input type="checkbox" id="franklin"> <label for="franklin">   B. Franklin</label>
+            <input type="checkbox" id="jefferson"> <label for="jefferson"> T. Jefferson</label>
+        <br><br>
+        <div id="q3Feedback"></div>
+        
+        <br>
+        <h3><span id="markImg4"></span> Which is the smallest US State?</h3>
+	        <div id="q4Choices"></div>
+	        <!-- <input type="radio" name="q4" id="me" value="Maine"> <label for="me">Maine </label>-->
+	        <!--<input type="radio" name="q4" id="ri" value="Rhode island"> <label for="ri">Rhode Island </label>-->
+	        <!--<input type="radio" name="q4" id="md" value="Maryland"> <label for="md">Maryland </label>-->
+	        <!--<input type="radio" name="q4" id="de" value="Delaware"> <label for="de">Delaware </label> -->
+	        <div id="q4Feedback"></div>
+	    <br>
+        
+        <h3><span id="markImg5"></span> What image is in the Great Seal of the State of California? </h3>
+        	<img src="img/seal1.png" alt="Seal 1" class="q5Choice" id="seal1" >
+	        <img src="img/seal2.png" alt="Seal 2" class="q5Choice" id="seal2">
+	        <img src="img/seal3.png" alt="Seal 3" class="q5Choice" id="seal3">
+	    <div id="q5Feedback"></div>
+	    
+	    <br><br>
+        
+        
+        <!--question 6-->
+         <h3><span id="markImg6"></span> What is the largest city in California? </h3> 
+        <input type = "text" id="q6">
+        
+            <br><br>
+        <div id="q6Feedback"></div>
+        
+         <!--question 7-->
+        <h3><span id="markImg7"></span>What is the largest tree in California?</h3>
+        <select id="q7">
+            <option value="">Select One</option>
+            <option value="se">Seqoia Sempervirens</option>
+            <option value="sh">Shorea Faguetiana</option>
+            <option value="eu">Eucalyptus Regnans</option>
+            <option value="pi">Picea sitchensis</option>
+        </select>
+        <br><br>
+        <div id="q7Feedback"></div>
+        
+        <!--question 8-->
+        <h3><span id="markImg8"></span> Which state is known as the Golden State?</h3>
+            <input type="checkbox" id="california"> <label for="california"> California</label>
+            <input type="checkbox" id="hawaii"> <label for="hawaii">Hawaii</label>
+            <input type="checkbox" id="colorado"> <label for="colorado">Colorado</label>
+            <input type="checkbox" id="arizona"> <label for="arizona"> Arizona</label>
+        <br><br>
+        <div id="q8Feedback"></div>
+        
+        
+        
+        
+        <!--<br>-->
+        <h1 id="congrats" class="test-info" font color="green"></h1>
+        <br><br>
+        <h3 id="validationfdbk" class="bg-danger text-white"></h3>
+        <button class="btn btn-dark"> Submit Quiz </button>
+        <br>
+        <h2 id="totalScore" class="test-info"></h2>
+        
+        
+        
+        
+        <!--web storage for number of times quiz taken-->
+        <div id="result"></div>
+
+        <script>
+            // Check browser support
+        if (typeof(Storage) !== "undefined") {
+                     // Store
+            localStorage.setItem("timesTaken", timesTaken);
+                 // Retrieve
+            document.getElementById("result").innerHTML = localStorage.getItem(timesTaken);
+                } else {
+                 document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
+                    }
+</script>
+        
+        
+        
+        
+        
+    </body>
+</html>
